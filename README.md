@@ -1,2 +1,2 @@
 # model_deployment
-deploying deep learning model-
+deploying deep learning model
