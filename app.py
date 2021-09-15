@@ -16,7 +16,7 @@ import tensorflow as tf
 from flask import Flask, redirect, url_for, request, render_template
 from werkzeug.utils import secure_filename
 from gevent.pywsgi import WSGIServer
-class_names = ['daisy', 'dandelion', 'roses', 'sunflowers', 'tulips']
+# class_names = ['daisy', 'dandelion', 'roses', 'sunflowers', 'tulips']
 
 # Define a flask app
 app = Flask(__name__)
@@ -32,7 +32,7 @@ print('Model loaded. Check http://127.0.0.1:5000/')
 
 
 def model_predict(img_path):
-    img = image.load_img(img_path, target_size=(180, 180))
+    img = image.load_img(img_path, target_size=(32, 32))
 
     # Preprocessing the image
     x = image.img_to_array(img)
@@ -42,7 +42,7 @@ def model_predict(img_path):
     model = load_model('model.h5')
     preds = model.predict(x)
     score = tf.nn.softmax(preds[0])
-    return class_names[np.argmax(score)]
+    return np.argmax(score)
 
 
 @app.route('/', methods=['GET'])
