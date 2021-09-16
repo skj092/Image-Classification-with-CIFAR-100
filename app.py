@@ -40,6 +40,18 @@ model.make_predict_function()
 print('Model loaded. Check http://127.0.0.1:5000/')
 
 
+# label mapping 
+import json
+  
+# reading the data from the file
+# with open('convert.txt') as f:
+#     data = f.read()
+# # class_names = json.loads(data)
+class_names = {}
+class_names[39] = 'plate'
+
+
+
 def model_predict(img_path):
     img = image.load_img(img_path, target_size=(32, 32))
 
@@ -51,7 +63,7 @@ def model_predict(img_path):
     model = models.load_model('model.h5')
     preds = model.predict(x)
     score = tf.nn.softmax(preds[0])
-    return np.argmax(score)
+    return class_names[np.argmax(score)]
 
 
 @app.route('/', methods=['GET'])
