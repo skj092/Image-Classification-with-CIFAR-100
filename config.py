@@ -13,6 +13,20 @@ transform = transforms.Compose([
     transforms.ToTensor()
 ])
 
+# CIFAR-10 classes
+CLASSES = [
+    'airplane',
+    'automobile',
+    'bird',
+    'cat',
+    'deer',
+    'dog',
+    'frog',
+    'horse',
+    'ship',
+    'truck'
+]
+
 # save checkpoint
 def save_checkpoint(state, filename="my_checkpoint.pth.tar"):
     print("=> Saving checkpoint")
