@@ -132,3 +132,4 @@ dmypy.json
 model.h5
 data/
 model.pkl 
+*.tar 
