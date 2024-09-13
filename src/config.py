@@ -4,7 +4,7 @@ import torch
 import os
 
 EPOCHS = 50
-BATCH_SIZE = 32
+BATCH_SIZE = 128
 LEARNING_RATE = 0.001
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 LOAD_MODEL = True

@@ -26,7 +26,7 @@ def train_model(model, train_dl, valid_dl, optimizer, loss_fn, scheduler=None, e
             optimizer.zero_grad()
             train_losses.append(loss.item())
             prediction = torch.argmax(out, dim=1)
-            acc = accuracy_score(yb, prediction)
+            acc = accuracy_score(yb.cpu(), prediction.cpu())
             train_acc.append(acc)
         if scheduler:
             scheduler.step()
@@ -37,7 +37,7 @@ def train_model(model, train_dl, valid_dl, optimizer, loss_fn, scheduler=None, e
                 output = model(xb)
                 loss = loss_fn(output, yb)
                 prediction = torch.argmax(output, dim=1)
-                accuracy = accuracy_score(yb, prediction)
+                accuracy = accuracy_score(yb.cpu(), prediction.cpu())
                 val_losses.append(loss)
                 val_accuracies.append(accuracy)
         print(f'epoch={epoch}, train_loss = {sum(train_losses)/len(train_losses):.3f},\
