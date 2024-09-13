@@ -69,7 +69,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--wandb", type=bool, default=False)
     parser.add_argument("--model_name", type=str, default="cnn")
+    parser.add_argument("--batch_size", type=int, default=32)
     args = parser.parse_args()
     config.WANDB = args.wandb
+    config.BATCH_SIZE = args.batch_size
     config.model_name = args.model_name
     main()
