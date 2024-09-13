@@ -55,7 +55,7 @@ def load_last_checkpoint(dir: str, model: torch.nn.Module, optimizer: torch.opti
 
     if len(checkpoint_files) == 0:
         print("No checkpoints found loading model from scratch")
-        return model, 0, 0
+        return model, 0
 
     # Sort files by modification time (most recent first)
     latest_checkpoint = max(checkpoint_files, key=os.path.getmtime)

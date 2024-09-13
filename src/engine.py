@@ -49,7 +49,8 @@ def train_model(model, train_dl, valid_dl, optimizer, loss_fn, scheduler=None, e
                 "train_loss": sum(train_losses)/len(train_losses),
                 "val_loss": sum(val_losses)/len(val_losses),
                 "train_acc": sum(train_acc)/len(train_acc),
-                "val_acc": sum(val_accuracies)/len(val_accuracies)
+                "val_acc": sum(val_accuracies)/len(val_accuracies),
+                "lr": optimizer.param_groups[0]['lr']
             })
         # Save checkpoint
         if config.SAVE_MODEL:
