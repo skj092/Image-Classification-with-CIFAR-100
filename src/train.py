@@ -70,7 +70,7 @@ def main():
 
     # train
     train_model(model, train_loader, valid_loader,
-                optimizer=optimizer, loss_fn=loss_fn, epoch=epoch)
+                optimizer=optimizer, loss_fn=loss_fn, epoch=epoch, scheduler=scheduler)
 
 
 if __name__ == "__main__":
