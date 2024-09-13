@@ -10,7 +10,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 LOAD_MODEL = True
 SAVE_MODEL = True
 CHECKPOINT_DIR = 'checkpoints'
-WANDB = True
+WANDB = False
 
 transform = transforms.Compose([
     transforms.ToTensor()
