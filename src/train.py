@@ -12,6 +12,7 @@ import logging
 import wandb
 from dotenv import load_dotenv
 from torch.optim import lr_scheduler
+import os
 
 
 load_dotenv()
@@ -45,12 +46,14 @@ def main():
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=config.LEARNING_RATE)
     scheduler = lr_scheduler.ExponentialLR(optimizer, gamma=0.9)
-    resume = False
 
     if config.LOAD_MODEL:
         model, epoch = load_last_checkpoint(
             config.CHECKPOINT_DIR, model, optimizer)
+    if os.path.exists(config.CHECKPOINT_DIR):
         resume = True
+    else:
+        resume = False
     if config.WANDB:
         print("Logging in wandb")
         conf = {
