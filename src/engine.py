@@ -1,14 +1,15 @@
-import torch 
+import torch
 from tqdm import tqdm
 from sklearn.metrics import accuracy_score
 import config
 from torch.optim.lr_scheduler import ExponentialLR
+from config import save_checkpoint
+import wandb
 
 
-
-def train_model(model, train_dl, valid_dl, optimizer, loss_fn, scheduler=None):
+def train_model(model, train_dl, valid_dl, optimizer, loss_fn, scheduler=None, epoch= 0):
     model.train()
-    for epoch in range(config.EPOCHS):
+    for epoch in range(epoch, config.EPOCHS):
         train_losses, train_acc, val_losses, val_accuracies = [], [], [], []
         loop = tqdm(train_dl)
         for xb, yb in loop:
@@ -23,12 +24,12 @@ def train_model(model, train_dl, valid_dl, optimizer, loss_fn, scheduler=None):
             optimizer.step()
             # zero grad
             optimizer.zero_grad()
-            train_losses.append(loss.item()) 
+            train_losses.append(loss.item())
             prediction = torch.argmax(out, dim=1)
             acc = accuracy_score(yb, prediction)
             train_acc.append(acc)
         if scheduler:
-            scheduler.step()          
+            scheduler.step()
         model.eval()
         with torch.no_grad():
             for xb, yb in valid_dl:
@@ -42,3 +43,20 @@ def train_model(model, train_dl, valid_dl, optimizer, loss_fn, scheduler=None):
         print(f'epoch={epoch}, train_loss = {sum(train_losses)/len(train_losses):.3f},\
             val_loss={sum(val_losses)/len(val_losses):.3f}, train_acc = {sum(train_acc)/len(train_acc):.3f}, \
                  val_acc={sum(val_accuracies)/len(val_accuracies):.3f}')
+        if config.WANDB:
+            wandb.log({
+                "epoch": epoch,
+                "train_loss": sum(train_losses)/len(train_losses),
+                "val_loss": sum(val_losses)/len(val_losses),
+                "train_acc": sum(train_acc)/len(train_acc),
+                "val_acc": sum(val_accuracies)/len(val_accuracies)
+            })
+        # Save checkpoint
+        if config.SAVE_MODEL:
+            checkpoint = {
+                'state_dict': model.state_dict(),
+                'optimizer': optimizer.state_dict(),
+                'epoch': epoch,
+                'val_loss': sum(val_losses)/len(val_losses),
+            }
+            save_checkpoint(checkpoint, config.CHECKPOINT_DIR)

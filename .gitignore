@@ -132,4 +132,7 @@ dmypy.json
 model.h5
 data/
 model.pkl 
-*.tar 
+*.tar checkpoints/
+wandb/
+checkpoints/
+src/__pycache__/
