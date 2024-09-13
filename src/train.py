@@ -3,7 +3,7 @@ from torch.utils.data import DataLoader
 from torchvision.datasets import CIFAR10
 import torch
 import numpy as np
-from model import CNN, EfficientNet
+from model import CNN, EfficientNet, ResNet, DenseNet
 import config
 from config import load_last_checkpoint
 import torch.nn as nn
@@ -32,8 +32,14 @@ def main():
 
     if config.model_name == "cnn":
         model = CNN()
-    else:
+    elif config.model_name == "efficientnet":
         model = EfficientNet()
+    elif config.model_name == "resnet":
+        model = ResNet()
+    elif config.model_name == "densenet":
+        model = DenseNet()
+    else:
+        raise ValueError("Model not found")
     model.to(config.device)
 
     loss_fn = nn.CrossEntropyLoss()

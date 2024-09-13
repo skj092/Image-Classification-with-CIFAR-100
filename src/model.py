@@ -39,7 +39,45 @@ class EfficientNet(nn.Module):
     def forward(self, x):
         return self.model(x)
 
-# test
+# Mobile Net
+
+
+class MobileNet(nn.Module):
+    def __init__(self, in_channels=3, num_classes=10):
+        super(MobileNet, self).__init__()
+        self.model = timm.create_model(
+            'mobilenetv3_large_100', pretrained=True)
+        self.model.classifier = nn.Linear(
+            self.model.classifier.in_features, num_classes)
+
+    def forward(self, x):
+        return self.model(x)
+
+# ResNet for CIFAR10
+
+
+class ResNet(nn.Module):
+    def __init__(self, in_channels=3, num_classes=10):
+        super(ResNet, self).__init__()
+        self.model = timm.create_model('resnet18', pretrained=True)
+        self.model.fc = nn.Linear(
+            self.model.fc.in_features, num_classes)
+
+    def forward(self, x):
+        return self.model(x)
+
+# DenseNet for CIFAR10
+
+
+class DenseNet(nn.Module):
+    def __init__(self, in_channels=3, num_classes=10):
+        super(DenseNet, self).__init__()
+        self.model = timm.create_model('densenet121', pretrained=True)
+        self.model.classifier = nn.Linear(
+            self.model.classifier.in_features, num_classes)
+
+    def forward(self, x):
+        return self.model(x)
 
 
 def test():
